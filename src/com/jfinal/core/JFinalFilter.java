@@ -44,8 +44,8 @@ public final class JFinalFilter implements Filter {
 	private int contextPathLength;
 	
 	public void init(FilterConfig filterConfig) throws ServletException {
+		System.out.println("--------------------------JFinalFilter init()----------------------------");
 		createJFinalConfig(filterConfig.getInitParameter("configClass"));
-		
 		if (jfinal.init(jfinalConfig, filterConfig.getServletContext()) == false)
 			throw new RuntimeException("JFinal init error!");
 		
@@ -56,6 +56,7 @@ public final class JFinalFilter implements Filter {
 		
 		String contextPath = filterConfig.getServletContext().getContextPath();
 		contextPathLength = (contextPath == null || "/".equals(contextPath) ? 0 : contextPath.length());
+		System.out.println("--------------------------contextPathLength: "+ contextPathLength +"----------------------------");
 	}
 	
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -66,9 +67,10 @@ public final class JFinalFilter implements Filter {
 		String target = request.getRequestURI();
 		if (contextPathLength != 0)
 			target = target.substring(contextPathLength);
-		
+		System.out.println("-------------target: "+target+"------------------------");
 		boolean[] isHandled = {false};
 		try {
+			System.out.println("-------------handler.class.name: "+handler.getClass().getName()+"------------------------");
 			handler.handle(target, request, response, isHandled);
 		}
 		catch (Exception e) {

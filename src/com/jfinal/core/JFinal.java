@@ -56,10 +56,10 @@ public final class JFinal {
 	boolean init(JFinalConfig jfinalConfig, ServletContext servletContext) {
 		this.servletContext = servletContext;
 		this.contextPath = servletContext.getContextPath();
-		
+		//获取应用的文件系统路径,存放于com.jfinal.kit.PathKit类的webRootPath静态变量上
 		initPathUtil();
-		
-		Config.configJFinal(jfinalConfig);	// start plugin and init log factory in this method
+		// start plugin and init log factory in this method
+		Config.configJFinal(jfinalConfig);	
 		constants = Config.getConstants();
 		
 		initActionMapping();
@@ -96,6 +96,7 @@ public final class JFinal {
 	}
 	
 	private void initActionMapping() {
+		//ms:拦截器没有用到
 		actionMapping = new ActionMapping(Config.getRoutes(), Config.getInterceptors());
 		actionMapping.buildActionMapping();
 		Config.getRoutes().clear();

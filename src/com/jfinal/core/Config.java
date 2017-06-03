@@ -44,10 +44,19 @@ class Config {
 	 * Config order: constant, route, plugin, interceptor, handler
 	 */
 	static void configJFinal(JFinalConfig jfinalConfig) {
-		jfinalConfig.configConstant(constants);				initLogFactory();
+		// 由实际项目实现常量的配置
+		jfinalConfig.configConstant(constants);
+		//默认使用com.jfinal.log.Log4jLogFactory
+		//并生成本类和JFinalFilter的log对象
+		initLogFactory();
+		// 由实际注册路由
 		jfinalConfig.configRoute(routes);
-		jfinalConfig.configPlugin(plugins);					startPlugins();	// very important!!!
+		// 由实际项目配置插件
+		jfinalConfig.configPlugin(plugins);					
+		startPlugins();	// very important!!!
+		//拦截器由实际项目创建
 		jfinalConfig.configInterceptor(interceptors);
+		//　处理句柄由实际项目创建
 		jfinalConfig.configHandler(handlers);
 	}
 	
@@ -101,6 +110,7 @@ class Config {
 	
 	private static void initLogFactory() {
 		LogManager.me().init();
+		
 		log = Log.getLog(Config.class);
 		JFinalFilter.initLog();
 	}
